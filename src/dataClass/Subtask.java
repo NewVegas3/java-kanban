@@ -2,7 +2,6 @@ package dataClass;
 
 public class Subtask extends Task {
 
-
     private int epicId;
 
     public Subtask(int id, String title, String description, String status, int epicId) {
@@ -13,6 +12,7 @@ public class Subtask extends Task {
     public int getEpicId() {
         return epicId;
     }
+
     @Override
     public String toString() {
         return "dataClass.Subtask{" +

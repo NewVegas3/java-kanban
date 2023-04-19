@@ -32,11 +32,11 @@ public class Main {
         manager.addSubtask(subtask3);
 
         System.out.println(manager.showSimpleTask());
-        System.out.println(manager.showEpicTasks());
+        System.out.println(manager.getEpicTasks());
         System.out.println(manager.showSubTasks());
 
-        manager.deletionSubtask();
-        manager.deletionEpic();
-        manager.deletionSubtask();
+        manager.deleteAllSimpleTasks();
+        manager.deletionAllEpic();
+        manager.deletionAllSubtask();
     }
 }

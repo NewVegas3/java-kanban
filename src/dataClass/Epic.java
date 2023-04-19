@@ -3,16 +3,16 @@ package dataClass;
 import java.util.ArrayList;
 
 public class Epic extends Task {
+
+    protected ArrayList<Integer> subtasksOfEpic = new ArrayList<>();
+
     public ArrayList<Integer> getSubtasksOfEpic() {
         return subtasksOfEpic;
     }
 
-    protected ArrayList<Integer> subtasksOfEpic = new ArrayList<>();
-
     public Epic(int id, String title, String description, String status) {
         super(id, title, description, status);
     }
-
 
     @Override
     public String toString() {

@@ -6,7 +6,6 @@ public class SimpleTask extends Task {
         super(id, title, description, status);
     }
 
-
     @Override
     public String toString() {
         return "dataClass.SimpleTask{" +
