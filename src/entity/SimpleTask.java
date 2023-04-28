@@ -1,14 +1,16 @@
-package dataClass;
+package entity;
+
+import manager.StatusTask;
 
 public class SimpleTask extends Task {
 
-    public SimpleTask(int id, String title, String description, String status) {
+    public SimpleTask(int id, String title, String description, StatusTask status) {
         super(id, title, description, status);
     }
 
     @Override
     public String toString() {
-        return "dataClass.SimpleTask{" +
+        return "\n dataClass.SimpleTask{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +

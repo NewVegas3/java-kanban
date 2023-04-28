@@ -1,13 +1,15 @@
-package dataClass;
+package entity;
+
+import manager.StatusTask;
 
 public class Task {
     protected int id;
     protected String title;
     protected String description;
 
-    protected String status;
+    protected StatusTask status;
 
-    public Task(int id, String title, String description, String status) {
+    public Task(int id, String title, String description, StatusTask status) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -38,11 +40,11 @@ public class Task {
         this.description = description;
     }
 
-    public String getStatus() {
+    public StatusTask getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusTask status) {
         this.status = status;
     }
 
