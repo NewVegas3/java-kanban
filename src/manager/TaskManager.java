@@ -3,49 +3,50 @@ package manager;
 import entity.Epic;
 import entity.SimpleTask;
 import entity.Subtask;
+import entity.Task;
 
 import java.util.List;
 
 public interface TaskManager {
 
+         List<SimpleTask> showSimpleTask();
 
-        public List<SimpleTask> showSimpleTask();
+         List<Epic> getEpicTasks(); // Получение списка всех задач.
 
-        public List<Epic> getEpicTasks(); // Получение списка всех задач.
+         List<Subtask> showSubTasks();
 
-        public List<Subtask> showSubTasks();
+         SimpleTask getSimple(int simpleId);
 
-        public SimpleTask getSimple(int simpleId);
+         Epic getEpic(int epicId); // Получение по идентификатору.
 
-        public Epic getEpic(int epicId); // Получение по идентификатору.
+         Subtask getSubtask(int subTaskId);
 
-        public Subtask getSubtask(int subTaskId);
+         List<Subtask> getSubtasksEpic(int epicId);
 
-        public List<Subtask> getSubtasksEpic(int epicId);
+         List<Task> getHistory();
 
+         void deleteAllSimpleTasks();
 
-        public void deleteAllSimpleTasks();
+         void deletionAllEpic(); // Удаление всех задач.
 
-        public void deletionAllEpic(); // Удаление всех задач.
+         void deletionAllSubtask();
 
-        public void deletionAllSubtask();
+         void removeSimpleTask(int simpleTaskId);
 
-        public void removeSimpleTask(int simpleTaskId);
+         void removeEpicTask(int epicId); // удаление задачи по идентификатору.
 
-        public void removeEpicTask(int epicId); // удаление задачи по идентификатору.
+         void removeSubtask(int id);
 
-        public void removeSubtask(int id);
+         void addSimpleTask(SimpleTask task); // Создание обычных задач
 
-        public void addSimpleTask(SimpleTask task); // Создание обычных задач
+         void updateSimpleTask(SimpleTask task); // Обновление обычных задач
 
-        public void updateSimpleTask(SimpleTask task); // Обновление обычных задач
+         void addEpic(Epic epic); // Создание Сложных задач
 
-        public void addEpic(Epic epic); // Создание Сложных задач
+         void updateEpic(Epic epic); // Обновление Сложных задач
 
-        public void updateEpic(Epic epic); // Обновление Сложных задач
+         void addSubtask(Subtask subtask); // Создание  подзадач
 
-        public void addSubtask(Subtask subtask); // Создание  подзадач
-
-        public void updateSubtask(Subtask subtask); // Обновление подзадач
+         void updateSubtask(Subtask subtask); // Обновление подзадач
 
 }

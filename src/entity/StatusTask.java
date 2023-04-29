@@ -1,4 +1,4 @@
-package manager;
+package entity;
 
 public enum StatusTask {
     NEW,

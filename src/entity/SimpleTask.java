@@ -1,7 +1,5 @@
 package entity;
 
-import manager.StatusTask;
-
 public class SimpleTask extends Task {
 
     public SimpleTask(int id, String title, String description, StatusTask status) {

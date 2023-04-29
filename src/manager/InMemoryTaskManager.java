@@ -1,21 +1,19 @@
 package manager;
 
-import entity.Epic;
-import entity.SimpleTask;
-import entity.Subtask;
-import entity.Task;
+import entity.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
+import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
 
     private HistoryManager historyManager = Managers.getDefaultHistory();
     private int nextId = 1;
-    private HashMap<Integer, SimpleTask> simpleTasks = new HashMap<>();
-    private HashMap<Integer, Epic> epicTasks = new HashMap<>();
-    private HashMap<Integer, Subtask> subTasks = new HashMap<>();
+    private Map<Integer, SimpleTask> simpleTasks = new HashMap<>();
+    private Map<Integer, Epic> epicTasks = new HashMap<>();
+    private Map<Integer, Subtask> subTasks = new HashMap<>();
 
     @Override
     public List<SimpleTask> showSimpleTask() {

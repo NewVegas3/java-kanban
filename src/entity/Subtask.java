@@ -1,7 +1,5 @@
 package entity;
 
-import manager.StatusTask;
-
 public class Subtask extends Task {
 
     private int epicId;

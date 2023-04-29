@@ -1,7 +1,5 @@
 package entity;
 
-import manager.StatusTask;
-
 import java.util.ArrayList;
 
 public class Epic extends Task {
@@ -12,8 +10,8 @@ public class Epic extends Task {
         return subtasksOfEpic;
     }
 
-    public Epic(int id, String title, String description, StatusTask status) {
-        super(id, title, description, status);
+    public Epic(int id, String title, String description) {
+        super(id, title, description ,StatusTask.NEW);
     }
 
     @Override

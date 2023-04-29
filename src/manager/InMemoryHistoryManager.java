@@ -2,12 +2,12 @@ package manager;
 
 import entity.Task;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    List<Task> historyTask = new ArrayList<>();
+  private final List<Task> historyTask = new LinkedList<>();
 
     @Override
     public void add(Task task) {

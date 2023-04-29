@@ -1,7 +1,5 @@
 package entity;
 
-import manager.StatusTask;
-
 public class Task {
     protected int id;
     protected String title;
