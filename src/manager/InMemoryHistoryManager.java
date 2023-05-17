@@ -34,11 +34,17 @@ private Map<Integer,Node<Task>> taskMap; // Хэш-таблица для быс�
 
     @Override
     public void add(Task task) {
+
+        if (task == null) {
+            return;
+        }
+
         int taskId = task.getId();
         Node<Task> existingNode = taskMap.get(taskId);
 
         if (existingNode != null) {
             removeNode(existingNode);
+            taskMap.remove(taskId,existingNode);
         }
 
         Node<Task> newNode = new Node<>(task);
@@ -50,12 +56,6 @@ private Map<Integer,Node<Task>> taskMap; // Хэш-таблица для быс�
         }
 
         taskMap.put(taskId,newNode);
-
-        if (size > 10) {
-            Node<Task> removeNode = head;
-            removeNode(removeNode);
-            taskMap.remove(removeNode.getValue().getId());
-        }
     }
 
     private void linkLast(Node<Task> newNode) {
@@ -87,12 +87,13 @@ private Map<Integer,Node<Task>> taskMap; // Хэш-таблица для быс�
     }
 
     public void remove(int id) {
-        Node<Task> nodeToRemove = taskMap.get(id);
-        if (nodeToRemove != null) {
-            removeNode(nodeToRemove);
-            taskMap.remove(id);
+        Node<Task> nodeToRemove =  taskMap.remove(id);
+        if (nodeToRemove == null) {
+            return;
         }
-    }
+        removeNode(nodeToRemove);
+        }
+
 
     public List<Task> getHistory() {
         List<Task> taskList = new ArrayList<>(size);
