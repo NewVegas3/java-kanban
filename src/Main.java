@@ -4,6 +4,7 @@ import entity.Subtask;
 import manager.InMemoryTaskManager;
 import entity.StatusTask;
 
+/*
 public class Main {
 
 
@@ -57,3 +58,5 @@ public class Main {
         System.out.println(manager.getHistory());
     }
 }
+
+     */

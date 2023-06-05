@@ -9,11 +9,11 @@ import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private HistoryManager historyManager = Managers.getDefaultHistory();
-    private int nextId = 1;
-    private Map<Integer, SimpleTask> simpleTasks = new HashMap<>();
-    private Map<Integer, Epic> epicTasks = new HashMap<>();
-    private Map<Integer, Subtask> subTasks = new HashMap<>();
+    protected HistoryManager historyManager = Managers.getDefaultHistory();
+    protected int nextId = 1;
+    protected Map<Integer, SimpleTask> simpleTasks = new HashMap<>();
+    protected Map<Integer, Epic> epicTasks = new HashMap<>();
+    protected Map<Integer, Subtask> subTasks = new HashMap<>();
 
     @Override
     public List<SimpleTask> showSimpleTask() {
@@ -149,7 +149,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     }
 
-    private void updateStatus(Epic epic) {
+    protected void updateStatus(Epic epic) {
         int checkerNew = 1;
         int checkerDone = 1;
         for (Integer id : epic.getSubtasksOfEpic()) {
