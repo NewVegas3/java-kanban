@@ -5,13 +5,14 @@ import entity.SimpleTask;
 import entity.Subtask;
 import entity.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface TaskManager {
 
-         List<SimpleTask> showSimpleTask();
+         List<SimpleTask> showSimpleTasks();
 
-         List<Epic> getEpicTasks(); // Получение списка всех задач.
+         List<Epic> showEpicTasks(); // Получение списка всех задач.
 
          List<Subtask> showSubTasks();
 
@@ -48,5 +49,7 @@ public interface TaskManager {
          void addSubtask(Subtask subtask); // Создание  подзадач
 
          void updateSubtask(Subtask subtask); // Обновление подзадач
+        void setStartAndEndTimeToEpic(int id);
+        ArrayList<Task> getPrioritizedTasks();
 
 }

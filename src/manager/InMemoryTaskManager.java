@@ -1,11 +1,10 @@
 package manager;
 
 import entity.*;
+import exceptions.SameTimeException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.Instant;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -15,13 +14,29 @@ public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, Epic> epicTasks = new HashMap<>();
     protected Map<Integer, Subtask> subTasks = new HashMap<>();
 
+    Comparator<Task> comparator = new StartTimeComparator().thenComparing(new IdComparator());
+
+    private final Set<Task> tasksWithPriority = new TreeSet<>(comparator);
+
+    public Map<Integer, SimpleTask> getSimpleTasks() {
+        return simpleTasks;
+    }
+
+    public Map<Integer, Epic> getEpicTasks() {
+        return epicTasks;
+    }
+
+    public Map<Integer, Subtask> getSubTasks() {
+        return subTasks;
+    }
+
     @Override
-    public List<SimpleTask> showSimpleTask() {
+    public List<SimpleTask> showSimpleTasks() {
         return new ArrayList<>(simpleTasks.values());
     }
 
     @Override
-    public List<Epic> getEpicTasks() {
+    public List<Epic> showEpicTasks() {
         return new ArrayList<>(epicTasks.values());
     }
 
@@ -166,6 +181,76 @@ public class InMemoryTaskManager implements TaskManager {
             epic.setStatus(StatusTask.DONE);
         } else {
             epic.setStatus(StatusTask.IN_PROGRESS);
+        }
+    }
+
+    @Override
+    public void setStartAndEndTimeToEpic(int id) {
+        Epic epic = epicTasks.get(id);
+        if (epic != null) {
+            ArrayList<Integer> subtasksIds = epic.getSubtasksOfEpic();
+            if (epic.getStartTime() == Instant.ofEpochSecond(0)) {
+                epic.setStartTime(Instant.MAX);
+            }
+            Instant epicStartTime = epic.getStartTime();
+            long totalTime = 0;
+
+            if (!subtasksIds.isEmpty()) {
+                for (Integer subtaskId : subtasksIds) {
+                    Instant subtaskStartTime = subTasks.get(subtaskId).getStartTime();
+                    long subtaskDuration = subTasks.get(subtaskId).getDuration();
+                    if (subtaskStartTime.isBefore(epicStartTime)) {
+                        epicStartTime = subtaskStartTime;
+                    }
+                    totalTime += subtaskDuration;
+                }
+                epic.setStartTime(epicStartTime);
+                epic.setEndTime(epic.getStartTime().plusSeconds(totalTime));
+            } else {
+                epic.setStartTime(null);
+                epic.setEndTime(null);
+                epic.setDuration(0);
+            }
+        }
+    }
+
+    @Override
+    public ArrayList<Task> getPrioritizedTasks() {
+        return new ArrayList<>(tasksWithPriority);
+        // эпики не попадают в список, так как у них нет собственного времени начала и конца
+    }
+
+    private void addToTasksWithPriority(Task task) {
+        checkTimeIntersections(task);
+        tasksWithPriority.add(task);
+    }
+
+    private void checkTimeIntersections(Task task) {
+        List<Task> tasksWithPriority = getPrioritizedTasks();
+        for (int i = 1; i < tasksWithPriority.size(); i++) {
+            if (task.getStartTime().isBefore(tasksWithPriority.get(i).getEndTime()) ||
+                    tasksWithPriority.get(i).getStartTime().isAfter(task.getEndTime())) {
+                throw new SameTimeException("Задачи пересекаются "
+                        + task.getId()
+                        + " и "
+                        + tasksWithPriority.get(i).getId());
+            }
+        }
+    }
+
+    public class StartTimeComparator implements Comparator<Task> {
+        // компаратор для сравнения времени начала задач
+        @Override
+        public int compare(Task task1, Task task2) {
+            return task1.getStartTime().compareTo(task2.getStartTime());
+        }
+    }
+
+    public class IdComparator implements Comparator<Task> {
+        // компаратор для сравнения задач по id
+        @Override
+        public int compare(Task task1, Task task2) {
+            return task1.getId() - task2.getId();
         }
     }
 }
