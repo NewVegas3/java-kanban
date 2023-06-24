@@ -1,6 +1,7 @@
 package manager;
 
 import entity.*;
+import exceptions.ManagerSaveException;
 
 import java.io.*;
 import java.time.Instant;
@@ -27,7 +28,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 Instant.ofEpochSecond(1656144073));
         Epic epic1 = new Epic(1, "Epic1", "Description Epic1");
         Subtask subtask1 = new Subtask(1, "Subtask1", "Description Subtask1", StatusTask.DONE, 3,15,
-                Instant.ofEpochSecond(1656144073));
+                Instant.ofEpochSecond(1677780600));
 
         // Добавление задач, эпиков и подзадач в исходный менеджер
         fileBackedTasksManager.addSimpleTask(task1);
@@ -102,7 +103,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     .append(subtask.getTitle()).append(",")
                     .append(subtask.getStatus()).append(",")
                     .append(subtask.getDescription()).append(",")
-                    .append(subtask.getEpicId())
+                    .append(subtask.getEpicId()).append(",")
                     .append(subtask.getDuration()).append(",")
                     .append(subtask.getStartTime());
         }

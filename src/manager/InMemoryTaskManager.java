@@ -91,6 +91,7 @@ public class InMemoryTaskManager implements TaskManager {
         for (Epic epic : epicTasks.values()) {
             epic.getSubtasksOfEpic().clear();
             updateStatus(epic);
+            setStartAndEndTimeToEpic(epic.getId());
         }
     }
 
@@ -114,6 +115,7 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epicTasks.get(epicId);
         epicTasks.get(epicId).getSubtasksOfEpic().remove(Integer.valueOf(id)); // очень надеюсь что правильно...
         updateStatus(epic);
+        setStartAndEndTimeToEpic(epicId);
         subTasks.remove(id);
     }
 
@@ -122,21 +124,25 @@ public class InMemoryTaskManager implements TaskManager {
         task.setId(nextId);
         simpleTasks.put(task.getId(), task);
         nextId++;
+        addToTasksWithPriority(task);
     }
 
     @Override
     public void updateSimpleTask(SimpleTask task) {
+        checkTimeIntersections(task);
         simpleTasks.put(task.getId(), task);
     }
 
     @Override
     public void addEpic(Epic epic) {
         epic.setId(nextId);
+        setStartAndEndTimeToEpic(epic.getId());
         epicTasks.put(epic.getId(), epic);
         nextId++;
     }
 
     public void updateEpic(Epic epic) {
+        setStartAndEndTimeToEpic(epic.getId());
         epicTasks.put(epic.getId(), epic);
     }
 
@@ -144,19 +150,23 @@ public class InMemoryTaskManager implements TaskManager {
     public void addSubtask(Subtask subtask) {
         if (epicTasks.containsKey(subtask.getEpicId())) {
             subtask.setId(nextId);
+            addToTasksWithPriority(subtask);
             subTasks.put(subtask.getId(), subtask);
             nextId++;
             Epic epic = epicTasks.get(subtask.getEpicId());
             epic.getSubtasksOfEpic().add(subtask.getId());
             updateStatus(epic);
+            setStartAndEndTimeToEpic(epic.getId());
         }
     }
 
     @Override
     public void updateSubtask(Subtask subtask) {
+        checkTimeIntersections(subtask);
         subTasks.put(subtask.getId(), subtask);
         Epic epic = epicTasks.get(subtask.getEpicId());
         updateStatus(epic);
+        setStartAndEndTimeToEpic(epic.getId());
     }
 
     public List<Task> getHistory() {
@@ -238,7 +248,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    public class StartTimeComparator implements Comparator<Task> {
+    public static class StartTimeComparator implements Comparator<Task> {
         // компаратор для сравнения времени начала задач
         @Override
         public int compare(Task task1, Task task2) {
@@ -246,7 +256,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    public class IdComparator implements Comparator<Task> {
+    public static class IdComparator implements Comparator<Task> {
         // компаратор для сравнения задач по id
         @Override
         public int compare(Task task1, Task task2) {
