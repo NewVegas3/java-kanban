@@ -1,29 +1,24 @@
-
 import entity.Epic;
 import entity.SimpleTask;
 import entity.StatusTask;
 import entity.Subtask;
 import exceptions.SaveException;
 import manager.FileBackedTasksManager;
-import manager.InMemoryTaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.BufferedReader;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-
-import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager> {
     @TempDir
@@ -106,7 +101,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
             List<String> savedManager = List.of(
                     "1,TASK,Task1,NEW,Description Task1,30,2022-06-25T06:01:13Z",
                     "2,TASK,Task2,IN_PROGRESS,Description Task2,160,2022-06-25T08:01:13Z",
-                    "3,EPIC,Epic1,DONE,Description Epic1,0,1970-01-01T00:00:00Z",
+                    "3,EPIC,Epic1,DONE,Description Epic1,0,2023-03-02T18:10:00Z",
                     "4,SUBTASK,Subtask1,DONE,Description Subtask1,3,15,2023-03-02T18:10:00Z"
             );
 
