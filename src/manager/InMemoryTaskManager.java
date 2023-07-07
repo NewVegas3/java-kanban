@@ -9,6 +9,15 @@ import java.util.*;
 public class InMemoryTaskManager implements TaskManager {
 
     protected HistoryManager historyManager = Managers.getDefaultHistory();
+
+    public int getNextId() {
+        return nextId;
+    }
+
+    public void setNextId(int nextId) {
+        this.nextId = nextId;
+    }
+
     protected int nextId = 1;
     protected Map<Integer, SimpleTask> simpleTasks = new HashMap<>();
     protected Map<Integer, Epic> epicTasks = new HashMap<>();
@@ -38,6 +47,10 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Epic> showEpicTasks() {
         return new ArrayList<>(epicTasks.values());
+    }
+
+    public HistoryManager getHistoryManager() {
+        return historyManager;
     }
 
     @Override

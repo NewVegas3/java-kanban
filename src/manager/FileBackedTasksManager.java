@@ -63,11 +63,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             writer.write('\n' + historyToString(historyManager));
 
         } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка при сохранении задач.", e);
+            throw new ManagerSaveException("Ошибка при сохранении задач.");
         }
     }
 
-    private static String historyToString(HistoryManager manager) {
+    protected static String historyToString(HistoryManager manager) {
         List<String> newHistory = new ArrayList<>();
 
         for (Task task : manager.getHistory()) {
@@ -110,7 +110,19 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return sb.toString();
     }
 
-    public static Task fromString(String value) {
+    protected static void addTaskWithoutSaving(FileBackedTasksManager manager, Task task) {
+        if (task instanceof Epic) {
+            manager.getEpicTasks().put(task.getId(), ((Epic) task));
+        } else if (task instanceof Subtask) {
+            manager.getSubTasks().put(task.getId(), (Subtask) task);
+            manager.getPrioritizedTasks().add(task);
+        } else if (task instanceof SimpleTask) {
+            manager.getSimpleTasks().put(task.getId(), (SimpleTask) task);
+            manager.getPrioritizedTasks().add(task);
+        }
+    }
+
+    public static Task fromString(String value) throws IOException {
         String[] values = value.split(",");
         TaskType taskType = TaskType.valueOf(values[1]);
 
@@ -185,7 +197,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 }
             }
         } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка при загрузке данных из файла.", e);
+            throw new ManagerSaveException("Ошибка при загрузке данных из файла.");
         }
         tasksArray.remove(0);
         if (!tasksArray.isEmpty()) {
