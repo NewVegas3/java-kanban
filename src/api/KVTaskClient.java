@@ -11,7 +11,7 @@ import java.net.http.HttpResponse;
 public class KVTaskClient {
     private final URI url;
     private final String API_TOKEN;
-    HttpClient client;
+    protected HttpClient client;
 
     public KVTaskClient(URI url) throws IOException, InterruptedException {
         client = HttpClient.newHttpClient();

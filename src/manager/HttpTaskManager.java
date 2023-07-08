@@ -10,17 +10,17 @@ import entity.SimpleTask;
 import entity.Subtask;
 import entity.Task;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
 public class HttpTaskManager extends FileBackedTasksManager {
-    private static Gson gson = new Gson();;
+    private static Gson gson = new Gson();
     private KVTaskClient kvTaskClient;
     private static String key;
+
     public HttpTaskManager(String uri) throws IOException, InterruptedException {
-        super(new File(uri));
+        super(null);
         kvTaskClient = new KVTaskClient(URI.create(uri));
     }
 
@@ -92,7 +92,6 @@ public class HttpTaskManager extends FileBackedTasksManager {
             return null;
         }
     }
-
 
     public static Task fromString(String value) throws IOException {
         JsonElement jsonElement = JsonParser.parseString(value);
