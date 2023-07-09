@@ -1,10 +1,9 @@
 import manager.InMemoryTaskManager;
+import org.junit.jupiter.api.BeforeEach;
 
-import static org.junit.jupiter.api.Assertions.*;
-
- class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
-  {
-   super.taskManager = new InMemoryTaskManager();
-  }
-
+class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
+ @BeforeEach
+ public void beforeEach() {
+  taskManager = new InMemoryTaskManager();
+ }
 }
